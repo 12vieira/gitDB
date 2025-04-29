@@ -32,8 +32,8 @@ class ProfessorModel {
     const resultado = await client.query(consulta, dados);
     return resultado.rows;
   }
-  static async totalProfessores(){
-      const consulta = `selec count(matricula) as total from professor;`
+  static async totalProfessor(){
+      const consulta = `select count(matricula) as total from professor;`
       const resultado = await client.query(consulta)
       return resultado.rows
   }

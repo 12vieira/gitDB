@@ -31,6 +31,11 @@ class ProfessorView {
     const matricula = input('Digite a matrícula do professor: ');
     await ProfessorController.deletarProfessor(matricula);
   }
+  static async totalProfessor() {
+    const total = await ProfessorController.totalProfessor();
+    console.table(total);
+  }
+
 }
 
 export default ProfessorView;

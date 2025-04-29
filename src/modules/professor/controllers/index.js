@@ -65,6 +65,20 @@ class ProfessorController {
             console.log('Erro ao excluir professor:', error.message);
         }
     }
+
+    static async totalProfessor() {
+        try {
+            const total = await ProfessorModel.totalProfessor();
+            if (total.length === 0) {
+                return console.error('Não há professores na contagem!');
+            }
+            console.log(`Total de professores: ${total[0].total}`);
+            return total[0].total;
+        } catch (error) {
+            console.error('Erro ao contar todos os alunos:', error.message);
+        }
+    }
+
 }
 
 export default ProfessorController;

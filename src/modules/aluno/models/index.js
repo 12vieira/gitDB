@@ -40,22 +40,6 @@ class AlunoModel{
         const resultado = await client.query(consulta)
         return resultado.rows
     }
-    static async totaAlunosPorCurso(cod_turma){
-        const dados = [cod_turma];
-        const consulta = `select count(aluno.cod_turma) as total_aluno from curso
-        join aluno on curso.cod_curso = aluno.cod_curso
-        where aluno.cod_curso = $1`
-        const total_alunos_curso = await client.query(consulta, dados);
-        return total_alunos_curso.rows;
-    }
-    static async listarAlunosPorCurso(cod_curso){
-        const dados = [cod_curso];
-        const consulta = `select aluno.cod_turma, curso.nome_turma from curso
-        join aluno on curso.cod_curso = aluno.cod_curso
-        where aluno.cod_curso = $1`
-        const resultado = await client.query(consulta,dados);
-        return resultado.rows;
-    }
 }
 
 export default AlunoModel

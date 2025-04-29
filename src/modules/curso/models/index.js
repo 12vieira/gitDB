@@ -58,8 +58,6 @@ class CursoModel {
         const resultado = await client.query(consulta, dados);
         return resultado.rows
     }
-    
-
 }
 
 export default CursoModel;

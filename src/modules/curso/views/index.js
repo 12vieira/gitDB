@@ -30,6 +30,22 @@ class CursoView {
     const cod = input('Digite o código do curso: ');
     await CursoController.deletarCurso(cod);
   }
+  static async totalAlunosPorCurso() {
+    const cod = input('Digite o código do curso: ');
+    const total = await CursoController.totalAlunosPorCurso(cod);
+    console.table(total);
+  }
+  static async listarAlunosPorCurso(){
+    const cod = input('Digite o código do curso: ');
+    const listaAluno = await CursoController.listarAlunosPorCurso(cod);
+    console.table(listaAluno);
+  }
+  static async listarProfessoresPorCurso(){
+    const cod = input('Digite o código do curso: ');
+    const listaProfessor = await CursoController.listarProfessoresPorCurso(cod);
+    console.table(listaProfessor)
+  }
+
 }
 
 export default CursoView;

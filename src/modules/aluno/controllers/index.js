@@ -90,6 +90,7 @@ class AlunoController {
             console.error('Erro ao contar todos os alunos:', error.message);
         }
     }
+
 }
 
 export default AlunoController;

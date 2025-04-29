@@ -101,6 +101,7 @@ async function menuProfessor() {
                 3 - Buscar por matrícula
                 4 - Editar professor
                 5 - Deletar professor
+                6 - Total de professores
                 0 - Voltar`);
         opcao = input('Escolha uma opção: ');
 
@@ -120,6 +121,9 @@ async function menuProfessor() {
             case '5':
                 await ProfessorView.deletarProfessor();
                 break;
+            case '6':
+                await ProfessorView.totalProfessor();
+                break;
             case '0':
                 return;
             default:
@@ -137,6 +141,9 @@ async function menuCurso() {
                 3 - Buscar por código
                 4 - Editar curso
                 5 - Deletar curso
+                6 - Total de alunos por curso
+                7 - Lista de alunos por curso
+                8 - Lista de professores por curso
                 0 - Voltar`);
         opcao = input('Escolha uma opção: ');
 
@@ -155,6 +162,15 @@ async function menuCurso() {
                 break;
             case '5':
                 await CursoView.deletarCurso();
+                break;
+            case '6':
+                await CursoView.totalAlunosPorCurso();
+                break;
+            case '7':
+                await CursoView.listarAlunosPorCurso();
+                break;
+            case '8':
+                await CursoView.listarProfessoresPorCurso();
                 break;
             case '0':
                 return;
