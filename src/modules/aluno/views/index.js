@@ -8,14 +8,14 @@ class AlunoView {
     const email = prompt("Digite o email do aluno: ");
     const matricula = prompt("Digite a matrícula do aluno: ");
     const telefone = prompt("Digite o telefone do aluno: ");
-    const cod_turma = prompt("Digite o código da turma do aluno: ");
+    const cod_curso = prompt("Digite o código da turma do aluno: ");
 
     const aluno = await AlunoController.criar(
       nome,
       email,
       matricula,
       telefone,
-      cod_turma
+      cod_curso
     );
     console.table(aluno);
   }
@@ -25,14 +25,14 @@ class AlunoView {
     const email = prompt("Digite o email do aluno: ");
     const matricula = prompt("Digite a nova matrícula do aluno: ");
     const telefone = prompt("Digite o novo telefone do aluno: ");
-    const cod_turma = prompt("Digite o novo código da turma do aluno: ");
+    const cod_curso = prompt("Digite o novo código da turma do aluno: ");
 
     const aluno = await AlunoController.editar(
       nome,
       email,
       matricula,
       telefone,
-      cod_turma
+      cod_curso
     );
     console.table(aluno);
   }

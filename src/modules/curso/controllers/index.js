@@ -74,8 +74,7 @@ class CursoController {
       if (total.length === 0) {
         return console.error('Não há alunos no curso');
       }
-      console.log(`Total de alunos: ${total[0].total}`);
-            return total[0].total;
+      return total;
     } catch (error) {
       console.log('Erro ao buscar o dado:',error.message);
     }

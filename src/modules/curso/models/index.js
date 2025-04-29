@@ -43,7 +43,7 @@ class CursoModel {
     static async listarAlunosPorCurso(cod_curso) {
         const dados = [cod_curso];
         const consulta = `
-            select aluno.nome, curso.nome_turma from curso
+            select aluno.nome, curso.nome_curso from curso
             join aluno on curso.cod_curso = aluno.cod_curso
             where aluno.cod_curso = $1`
         const resultado = await client.query(consulta, dados);
@@ -52,7 +52,7 @@ class CursoModel {
     static async listarProfessoresPorCurso(cod_curso){
         const dados = [cod_curso];
         const consulta = `
-            select professor.nome, curso.nome_turma from curso
+            select professor.nome, curso.nome_curso from curso
             join professor on curso.cod_curso = professor.cod_curso
             where professor.cod_curso = $1;`
         const resultado = await client.query(consulta, dados);

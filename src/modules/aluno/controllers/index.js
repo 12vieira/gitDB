@@ -1,12 +1,12 @@
 import AlunoModel from "../models/index.js";
 
 class AlunoController {
-    static async criar(nome, email, matricula, telefone, cod_turma) {
+    static async criar(nome, email, matricula, telefone, cod_curso) {
         try {
-            if (!nome || !email || !matricula || !telefone || !cod_turma) {
+            if (!nome || !email || !matricula || !telefone || !cod_curso) {
                 return console.error('Todos os campos devem ser preenchidos!');
             }
-            const aluno = await AlunoModel.criar(nome, email, matricula, telefone, cod_turma);
+            const aluno = await AlunoModel.criar(nome, email, matricula, telefone, cod_curso);
             console.log('Aluno criado com sucesso!');
             return aluno;
         } catch (error) {
@@ -14,12 +14,12 @@ class AlunoController {
         }
     }
 
-    static async editar(nome, email, matricula, telefone, cod_turma) {
+    static async editar(nome, email, matricula, telefone, cod_curso) {
         try {
-            if (!nome || !email || !matricula || !telefone || !cod_turma) {
+            if (!nome || !email || !matricula || !telefone || !cod_curso) {
                 return console.error('Todos os campos devem ser preenchidos!');
             }
-            const aluno = await AlunoModel.atualizarAluno(nome, email, matricula, telefone, cod_turma);
+            const aluno = await AlunoModel.atualizarAluno(nome, email, matricula, telefone, cod_curso);
             if (aluno.length === 0) {
                 return console.error('Aluno não encontrado!');
             }
