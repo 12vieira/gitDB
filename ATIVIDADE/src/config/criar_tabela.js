@@ -20,7 +20,7 @@ class CriarTabela{
             id_livro serial primary key,
             titulo varchar(100) not null,
             autor varchar(100) not null,
-            ano_publicacao integer not null
+            ano_publicacao integer
         );`
         await client.query(consulta)
         console.log('Tabela livro criada com sucesso!')
@@ -34,8 +34,9 @@ class CriarTabela{
             status varchar(100) not null,
             id_usuario integer references usuario(id_usuario)
             id_livro integer references livro(id_livro)
-        )
-        `
+        );`
+        await client.query(consulta)
+        console.log('Tabela livro criada com sucesso!')
     }
 }
 
