@@ -8,6 +8,7 @@ async function criarTabelas() {
     try {
         await CriarTabela.usuario();
         await CriarTabela.livro();
+        await CriarTabela.emprestimo();
         console.log('Tabelas criadas com sucesso!');
     } catch (error) {
         console.error('Erro ao criar tabelas:', error);
