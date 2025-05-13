@@ -45,11 +45,11 @@ class EmprestimoController {
     try {
       const total = await EmprestimoModel.totalEmprestimo();
       if (total.length === 0) {
-        return console.error('Não há alunos no emprestimo');
+        return console.error('Não há registros de empréstimo!');
       }
       return total;
     } catch (error) {
-      console.log('Erro ao buscar o dado:',error.message);
+      console.log('Erro ao buscar registros:',error.message);
     }
   }
   static async listarTodos() {
@@ -61,20 +61,17 @@ class EmprestimoController {
       console.log('Erro ao listar emprestimos:', error.message);
     }
   }
-  static async atualizarStatus(id_livro, status){
+  static async atualizarStatus(id_emprestimo, status){
     try {
-      if (!id_livro || !status){
+      if (!id_emprestimo || !status){
         return console.error('Todos os campos devem ser preenchidos!');
     }
-      const busca = await EmprestimoModel.listarPorLivroOuUsuario(id_livro,status);
-      if (busca.length === 0) {
-        return console.error('Empréstimo não encontrado!');
-    } const emprestimo = await EmprestimoModel.atualizarStatus(id_livro, status);
-    console.log('Curso atualizado com sucesso!');
+      const emprestimo = await EmprestimoModel.atualizarStatus(id_emprestimo, status);
+    console.log('Empréstimo atualizado com sucesso!');
     return emprestimo;
     
     } catch (error) {
-      console.log('Erro ao atualizar curso:', error.message);
+      console.log('Erro ao atualizar empréstimo:', error.message);
     }
   }
 

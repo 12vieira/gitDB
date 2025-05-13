@@ -32,11 +32,11 @@ class CriarTabela{
             data_emprestimo date not null,
             data_devolucao date not null,
             status varchar(100) not null,
-            id_usuario integer references usuario(id_usuario)
+            id_usuario integer references usuario(id_usuario),
             id_livro integer references livro(id_livro)
         );`
         await client.query(consulta)
-        console.log('Tabela livro criada com sucesso!')
+        console.log('Tabela empréstimo criada com sucesso!')
     }
 }
 

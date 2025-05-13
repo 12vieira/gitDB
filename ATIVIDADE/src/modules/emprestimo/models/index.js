@@ -55,9 +55,9 @@ class EmprestimoModel {
         const resultado = await client.query(consulta);
         return resultado.rows;
     }
-    static async atualizarStatus(id_livro, status) {
-        const dados = [id_livro, status];
-        const consulta = `update emprestimo set status = $2 where id_livro = $1 returning *`;
+    static async atualizarStatus(id_emprestimo, status) {
+        const dados = [id_emprestimo, status];
+        const consulta = `update emprestimo set status = $2 where id_emprestimo = $1 returning *`;
         const resultado = await client.query(consulta, dados);
         return resultado.rows;
     }

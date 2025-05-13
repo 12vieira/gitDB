@@ -22,7 +22,7 @@ class UsuarioView{
         console.table(usuario);
     }
     static async atualizar() {
-        const id_usuario = prompt("Digite o nome do usuário: ");
+        const id_usuario = prompt("Digite o id do usuário: ");
         const nome = prompt("Digite o nome do usuário: ");
         const matricula = prompt("Digite a matrícula do usuário: ");
         const telefone = prompt("Digite o telefone do usuário: ");

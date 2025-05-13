@@ -40,7 +40,7 @@ class UsuarioController{
             console.error('Erro ao atualizar usuário:', error.message);
         }
     }
-    static async exluirUsuario(matricula){
+    static async excluirUsuario(matricula){
         try {
             const usuario = await UsuarioModel.buscarPorMatricula(matricula);
             if (usuario.length === 0) {

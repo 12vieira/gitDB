@@ -35,7 +35,7 @@ async function menu() {
             case '2':
                 await menuLivro();
                 break;
-            case '3': menuEmprestimo();
+            case '3': await menuEmprestimo();
                 break;
             case '0':
                 console.log('Saindo...');

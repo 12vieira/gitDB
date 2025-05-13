@@ -37,7 +37,8 @@ class LivroView{
     }
     static async excluirLivro(){
         const cod = prompt("Digite o id do livro a ser excuído: ")
-        await LivroController.excluirLivro(cod);
+        const autor = prompt("Digite o autor do livro a ser excuído: ")
+        await LivroController.excluirLivro(cod, autor);
         console.log(`livro com id ${cod} foi deletado.`);
     }
 }

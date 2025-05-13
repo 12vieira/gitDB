@@ -9,9 +9,9 @@ class EmprestimoView {
     const id_emprestimo = input('Digite o id do empréstimo: ');
     const id_livro = input('Digite o id do livro: ');
     const id_usuario = input('Digite o id do usuário: ');
-    const status = input('Digite o status do empréstimo: ');
-    const data_emprestimo = input('Digite a data do empréstimo: ');
-    const data_devolucao = input('Digite a data de devolução: ');
+    const status = "ativo";
+    const data_emprestimo = input('Digite a data do empréstimo [YYYY-MM-DD]: ');
+    const data_devolucao = input('Digite a data de devolução [YYYY-MM-DD]: ');
     const emprestimo = await EmprestimoController.criar(id_emprestimo, id_livro, id_usuario, status, data_emprestimo, data_devolucao);
     console.table(emprestimo);
   }
@@ -35,9 +35,9 @@ class EmprestimoView {
     console.table(emprestimos);
   }
   static async atualizarStatus() {
-    const id_livro = input('Digite o nome do livro: ');
-    const status = input('Digite o novo status do empréstimo: ');
-    const emprestimo = await EmprestimoController.atualizarStatus(id_livro, status);
+    const id_emprestimo = input('Digite o id do emprestimo: ');
+    const status = input('Digite o novo status do empréstimo [devolvido ou atrasado]: ');
+    const emprestimo = await EmprestimoController.atualizarStatus(id_emprestimo, status);
     console.table(emprestimo);
   }
   static async deletarEmprestimo() {

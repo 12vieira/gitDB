@@ -55,9 +55,9 @@ class LivroController{
             console.error('Erro ao atualizar livro:', error.message);
         }
     }
-    static async exluirLivro(id_livro){
+    static async excluirLivro(id_livro,autor){
         try {
-            const livro = await LivroModel.buscarPorTituloOuAutor(id_livro);
+            const livro = await LivroModel.buscarPorTituloOuAutor(id_livro,autor);
             if (livro.length === 0) {
                 return console.error('Livro não encontrado!');
             }
