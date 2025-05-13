@@ -1,108 +1,91 @@
-import client from "../../../../src/config/database.js"
+import EmprestimoModel from "../../emprestimo/models/index.js";
 
-// CONTROLLERS - Curso
+// CONTROLLERS - emprestimo
 
-class CursoController {
-  static async criar(cod_curso, nome_curso) {
+class EmprestimoController {
+  static async criar(id_emprestimo, id_livro, id_usuario, status, data_emprestimo, data_devolucao) {
     try {
-      if (!cod_curso || !nome_curso) {
+      if (!id_emprestimo || !id_livro || !id_usuario || !status || !data_emprestimo || !data_devolucao) {
           return console.error('Todos os campos devem ser preenchidos!');
       }
-      const curso = await CursoModel.criar(cod_curso, nome_curso);
-      console.log('Curso criado com sucesso!');
-      return curso;
+      const emprestimo = await EmprestimoModel.criar(id_emprestimo, id_livro, id_usuario, status, data_emprestimo, data_devolucao);
+      console.log('Emprestimo criado com sucesso!');
+      return emprestimo;
     } catch (error) {
-      console.log('Erro ao criar curso:', error.message);
+      console.log('Erro ao criar emprestimo:', error.message);
     }
   }
 
-  static async editar(cod_curso, nome_curso) {
+  static async listarPorLivroOuUsuario(id_livro,id_usuario){
     try {
-      if (!cod_curso || !nome_curso){
-          return console.error('Todos os campos devem ser preenchidos!');
+      const emprestimos = await EmprestimoModel.listarPorLivroOuUsuario(id_livro,id_usuario); // Passa os dois parâmetros
+      if (!emprestimos || emprestimos.length === 0) {
+          console.log('Nenhum empréstimo encontrado!');
+          return [];
       }
-      const busca = await CursoModel.listarPorCodigo(cod_curso);
-      if (busca.length === 0) {
-          return console.error('Curso não encontrado!');
+      console.log('Empréstimos encontrados:', emprestimos);
+      return emprestimos;
+  } catch (error) {
+      console.error('Erro ao buscar livro:', error);
+      throw error;
+    }
+  }
+  static async filtrar(status) {
+    try {
+      const emprestimo = await EmprestimoModel.filtrar(status);
+      if (emprestimo.length === 0){
+          return console.error('Emprestimo não encontrado!');
       }
-      const curso = await CursoModel.atualizarCurso(cod_curso, nome_curso)
-      console.log('Curso atualizado com sucesso!');
-      return curso;
+      return emprestimo;
     } catch (error) {
-      console.log('Erro ao editar curso:', error.message);
+      console.log('Erro ao listar emprestimo:', error.message);
     }
   }
-
-  static async listarTodos() {
+  static async totalEmprestimo(){
     try {
-      const cursos = await CursoModel.listarTodos();
-      console.log('Listagem de cursos:');
-      return cursos;
-    } catch (error) {
-      console.log('Erro ao listar cursos:', error.message);
-    }
-  }
-
-  static async listarPorCodigo(cod_curso) {
-    try {
-      const curso = await CursoModel.listarPorCodigo(cod_curso);
-      if (curso.length === 0){
-          return console.error('Curso não encontrado!');
-      }
-      return curso;
-    } catch (error) {
-      console.log('Erro ao listar curso:', error.message);
-    }
-  }
-
-  static async deletarCurso(cod_curso) {
-    try {
-      const curso = await CursoModel.listarPorCodigo(cod_curso);
-      if (curso.length === 0) {
-          return console.error('Curso não encontrado!');
-      }
-      await CursoModel.deletarCurso(cod_curso);
-      console.log('Curso excluído com sucesso!');
-    } catch (error) {
-      console.log('Erro ao excluir curso:', error.message);
-    }
-  }
-
-  static async totalAlunosPorCurso(cod_curso){
-    try {
-      const total = await CursoModel.totalAlunosPorCurso(cod_curso);
+      const total = await EmprestimoModel.totalEmprestimo();
       if (total.length === 0) {
-        return console.error('Não há alunos no curso');
+        return console.error('Não há alunos no emprestimo');
       }
       return total;
     } catch (error) {
       console.log('Erro ao buscar o dado:',error.message);
     }
   }
-  
-  static async listarAlunosPorCurso(cod_curso) {
+  static async listarTodos() {
     try {
-      const curso = await CursoModel.listarAlunosPorCurso(cod_curso);
-      if (curso.length === 0){
-          return console.error('Curso não encontrado!');
-      }
-      return curso;
+      const emprestimos = await EmprestimoModel.listarTodos();
+      console.log('Listagem de emprestimos:');
+      return emprestimos;
     } catch (error) {
-      console.log('Erro ao listar alunos por curso:', error.message);
+      console.log('Erro ao listar emprestimos:', error.message);
+    }
+  }
+  static async atualizarStatus(id_livro, status){
+    try {
+      if (!id_livro || !status){
+        return console.error('Todos os campos devem ser preenchidos!');
+    }
+      const busca = await EmprestimoModel.listarPorLivroOuUsuario(id_livro,status);
+      if (busca.length === 0) {
+        return console.error('Empréstimo não encontrado!');
+    } const emprestimo = await EmprestimoModel.atualizarStatus(id_livro, status);
+    console.log('Curso atualizado com sucesso!');
+    return emprestimo;
+    
+    } catch (error) {
+      console.log('Erro ao atualizar curso:', error.message);
     }
   }
 
-  static async listarProfessoresPorCurso(cod_curso) {
+  static async deletarEmprestimo(id_emprestimo) {
     try {
-      const curso = await CursoModel.listarProfessoresPorCurso(cod_curso);
-      if (curso.length === 0){
-          return console.error('Curso não encontrado!');
-      }
-      return curso;
+      await EmprestimoModel.deletarEmprestimo(id_emprestimo);
+      console.log('Empréstimo excluído com sucesso!');
     } catch (error) {
-      console.log('Erro ao listar alunos por curso:', error.message);
+      console.log('Erro ao excluir empréstimo:', error.message);
     }
   }
 }
 
-export default CursoController;
+export default EmprestimoController;

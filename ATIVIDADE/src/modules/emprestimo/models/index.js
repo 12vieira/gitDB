@@ -2,9 +2,9 @@ import client from "../../../../src/config/database.js"
 // MODELS - emprestimo
 
 class EmprestimoModel {
-    static async criar(id_livro, id_usuario, status, data_emprestimo, data_devolucao) {
-        const dados = [id_livro, id_usuario, status, data_emprestimo, data_devolucao];
-        const consulta = `insert into emprestimo(id_livro, id_usuario, status, data_emprestimo, data_devolucao) values ($1, $2, $3, $4, $5) returning *;`;
+    static async criar(id_emprestimo, id_livro, id_usuario, status, data_emprestimo, data_devolucao) {
+        const dados = [id_emprestimo, id_livro, id_usuario, status, data_emprestimo, data_devolucao];
+        const consulta = `insert into emprestimo(id_emprestimo, id_livro, id_usuario, status, data_emprestimo, data_devolucao) values ($1, $2, $3, $4, $5, $6) returning *;`;
         const resultado = await client.query(consulta, dados);
         return resultado.rows;
     }
@@ -55,15 +55,15 @@ class EmprestimoModel {
         const resultado = await client.query(consulta);
         return resultado.rows;
     }
-    static async atualizarEmprestimo(id_livro, status) {
+    static async atualizarStatus(id_livro, status) {
         const dados = [id_livro, status];
         const consulta = `update emprestimo set status = $2 where id_livro = $1 returning *`;
         const resultado = await client.query(consulta, dados);
         return resultado.rows;
     }
-    static async deletarEmprestimo(id_livro) {
-        const dados = [id_livro];
-        const consulta = `delete from emprestimo where id_livro = $1`;
+    static async deletarEmprestimo(id_emprestimo) {
+        const dados = [id_emprestimo];
+        const consulta = `delete from emprestimo where id_emprestimo = $1`;
         await client.query(consulta, dados);
     }
 }

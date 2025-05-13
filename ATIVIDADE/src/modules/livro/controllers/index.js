@@ -1,12 +1,12 @@
 import LivroModel from "../../livro/models/index.js";
 
 class LivroController{
-    static async criar(titulo, autor, ano_publicacao){
+    static async criar(id_livro, titulo, autor, ano_publicacao){
         try {
-            if (!titulo || !autor || !ano_publicacao) {
+            if (!id_livro || !titulo || !autor || !ano_publicacao) {
                 return console.error('Todos os campos devem ser preenchidos!');
             }
-            const livro = await LivroModel.criar(titulo, autor, ano_publicacao);
+            const livro = await LivroModel.criar(id_livro,titulo, autor, ano_publicacao);
             console.log('livro criado com sucesso!');
             return livro;
         } catch (error) {
@@ -40,12 +40,12 @@ class LivroController{
         }
     }
     
-    static async atualizar(titulo, autor, ano_publicacao){
+    static async atualizar(id_livro, titulo, autor, ano_publicacao){
         try {
-            if (!titulo || !autor || !ano_publicacao) {
+            if (!id_livro || !titulo || !autor || !ano_publicacao) {
                 return console.error('Todos os campos devem ser preenchidos!');
             }
-            const livro = await LivroModel.atualizar(titulo, autor, ano_publicacao);
+            const livro = await LivroModel.atualizar(id_livro, titulo, autor, ano_publicacao);
             if (livro.length === 0) {
                 return console.error('Livro não encontrado!');
             }
@@ -55,13 +55,13 @@ class LivroController{
             console.error('Erro ao atualizar livro:', error.message);
         }
     }
-    static async exluirLivro(autor){
+    static async exluirLivro(id_livro){
         try {
-            const livro = await LivroModel.buscarPorTituloOuAutor(autor);
+            const livro = await LivroModel.buscarPorTituloOuAutor(id_livro);
             if (livro.length === 0) {
                 return console.error('Livro não encontrado!');
             }
-            await LivroModel.excluirLivro(autor);
+            await LivroModel.excluirLivro(id_livro);
             console.log('Livro excluído com sucesso!');
         } catch (error) {
             console.error('Erro ao excluir o livro:', error.message);

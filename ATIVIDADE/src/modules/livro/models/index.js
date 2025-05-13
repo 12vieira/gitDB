@@ -1,9 +1,9 @@
 import client from '../../../config/database.js'
 
 class LivroModel{
-    static async criar(titulo, autor, ano_publicacao){
-        const dados = [titulo, autor, ano_publicacao];
-        const consulta = `insert into livro (titulo, autor, ano_publicacao) values ($1, $2, $3) returning *;`
+    static async criar(id_livro, titulo, autor, ano_publicacao){
+        const dados = [id_livro, titulo, autor, ano_publicacao];
+        const consulta = `insert into livro (id_livro, titulo, autor, ano_publicacao) values ($1, $2, $3, $4) returning *;`
         const resultado = await client.query(consulta,dados);
         return resultado.rows;
     }
@@ -38,15 +38,15 @@ class LivroModel{
         return resultado.rows;
     }
     
-    static async atualizar(titulo, autor, ano_publicacao){
-        const dados = [titulo, autor, ano_publicacao];
-        const consulta = `update livro set titulo = $1, ano_publicacao = $3 where autor = $2 returning *`
+    static async atualizar(id_livro, titulo, autor, ano_publicacao){
+        const dados = [id_livro, titulo, autor, ano_publicacao];
+        const consulta = `update livro set titulo = $2, autor = $3, ano_publicacao = $4 where id_livro = $1 returning *`
         const resultado = await client.query(consulta, dados);
         return resultado.rows;
     }
-    static async excluirLivro (titulo) {
-        const dados = [titulo];
-        const consulta = `delete from livro  where titulo = $1`;
+    static async excluirLivro (id_livro) {
+        const dados = [id_livro];
+        const consulta = `delete from livro where id_livro = $1`;
         await client.query(consulta, dados);
       }
 }

@@ -1,9 +1,9 @@
 import client from '../../../config/database.js'
 
 class UsuarioModel{
-    static async criar(nome, matricula, telefone){
-        const dados = [nome, matricula, telefone];
-        const consulta = `insert into usuario(nome, matricula, telefone) values ($1, $2, $3) returning *;`
+    static async criar(id_usuario, nome, matricula, telefone){
+        const dados = [id_usuario, nome, matricula, telefone];
+        const consulta = `insert into usuario(id_usuario, nome, matricula, telefone) values ($1, $2, $3, $4) returning *;`
         const resultado = await client.query(consulta,dados);
         return resultado.rows;
     }
@@ -13,9 +13,9 @@ class UsuarioModel{
         const resultado = await client.query(consulta, dados);
         return resultado.rows
     }
-    static async atualizar(nome, matricula, telefone){
-        const dados = [nome, matricula, telefone];
-        const consulta = `update usuario set nome = $1, telefone = $3 where matricula = $2 returning *`
+    static async atualizar(id_usuario, nome, matricula, telefone){
+        const dados = [id_usuario, nome, matricula, telefone];
+        const consulta = `update usuario set id_usuario = $1, nome = $2, telefone = $4 where matricula = $3 returning *`
         const resultado = await client.query(consulta, dados);
         return resultado.rows;
     }

@@ -2,6 +2,7 @@ import CriarTabela from '../ATIVIDADE/src/config/criar_tabela.js'
 import prompt from 'prompt-sync';
 import UsuarioView from '../ATIVIDADE/src/modules/usuario/views/index.js';
 import LivroView from '../ATIVIDADE/src/modules/livro/views/index.js'
+import EmprestimoView from '../ATIVIDADE/src/modules/emprestimo/views/index.js'
 const input = prompt();
 
 async function criarTabelas() {
@@ -34,7 +35,7 @@ async function menu() {
             case '2':
                 await menuLivro();
                 break;
-            case '3':
+            case '3': menuEmprestimo();
                 break;
             case '0':
                 console.log('Saindo...');
@@ -100,6 +101,49 @@ async function menuLivro() {
                 break;
             case '4':
                 await LivroView.excluirLivro();
+                break;
+            case '0':
+                return;
+            default:
+                console.log('Opção inválida!');
+        }
+    }
+}
+async function menuEmprestimo() {
+    let opcao = '';
+    while (opcao !== '0') {
+        console.log(`\n--- Menu Empréstimo ---
+                1 - Cadastrar emprestimo
+                2 - Listar empréstimo
+                3 - Filtar por status
+                4 - Contar empréstimos
+                5 - Listar todos os empréstimos
+                6 - Atualizar status
+                7 - Excluir empréstimo
+                0 - Voltar`);
+        opcao = input('Escolha uma opção: ');
+
+        switch (opcao) {
+            case '1':
+                await EmprestimoView.criar();
+                break;
+            case '2':
+                await EmprestimoView.listarPorLivroOuUsuario();
+                break;
+            case '3':
+                await EmprestimoView.filtrar()
+                break;
+            case '4':
+                await EmprestimoView.totalEmprestimo();
+                break;
+            case '5':
+                await EmprestimoView.listarTodos();
+                break;
+            case '6':
+                await EmprestimoView.atualizarStatus();
+                break;
+            case '7':
+                await EmprestimoView.deletarEmprestimo();
                 break;
             case '0':
                 return;

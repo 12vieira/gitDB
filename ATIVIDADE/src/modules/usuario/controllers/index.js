@@ -1,12 +1,12 @@
 import UsuarioModel from "../../usuario/models/index.js";
 
 class UsuarioController{
-    static async criar(nome, matricula, telefone){
+    static async criar(id_usuario, nome, matricula, telefone){
         try {
-            if (!nome || !matricula || !telefone) {
+            if (!id_usuario || !nome || !matricula || !telefone) {
                 return console.error('Todos os campos devem ser preenchidos!');
             }
-            const usuario = await UsuarioModel.criar(nome, matricula, telefone);
+            const usuario = await UsuarioModel.criar(id_usuario, nome, matricula, telefone);
             console.log('Usuario criado com sucesso!');
             return usuario;
         } catch (error) {
@@ -25,12 +25,12 @@ class UsuarioController{
             console.error('Erro ao buscar usuário:', error.message);
         }
     }
-    static async atualizar(nome, matricula, telefone){
+    static async atualizar(id_usuario, nome, matricula, telefone){
         try {
-            if (!nome || !matricula || !telefone) {
+            if (!id_usuario || !nome || !matricula || !telefone) {
                 return console.error('Todos os campos devem ser preenchidos!');
             }
-            const usuario = await UsuarioModel.atualizar(nome, matricula, telefone);
+            const usuario = await UsuarioModel.atualizar(id_usuario, nome, matricula, telefone);
             if (usuario.length === 0) {
                 return console.error('Usuário não encontrado!');
             }

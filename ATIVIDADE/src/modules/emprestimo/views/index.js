@@ -1,51 +1,49 @@
-import client from "../../../../src/config/database.js"
+import EmprestimoController from '../../emprestimo/controllers/index.js';
 
-// VIEWS - Curso
+// VIEWS - emprestimo
 import prompt from 'prompt-sync';
 const input = prompt();
 
-class CursoView {
+class EmprestimoView {
   static async criar() {
-    const cod = input('Digite o código do curso: ');
-    const nome = input('Digite o nome do curso: ');
-    const curso = await CursoController.criar(cod, nome);
-    console.table(curso);
+    const id_emprestimo = input('Digite o id do empréstimo: ');
+    const id_livro = input('Digite o id do livro: ');
+    const id_usuario = input('Digite o id do usuário: ');
+    const status = input('Digite o status do empréstimo: ');
+    const data_emprestimo = input('Digite a data do empréstimo: ');
+    const data_devolucao = input('Digite a data de devolução: ');
+    const emprestimo = await EmprestimoController.criar(id_emprestimo, id_livro, id_usuario, status, data_emprestimo, data_devolucao);
+    console.table(emprestimo);
   }
-  static async editarCurso() {
-    const cod = input('Digite o código do curso: ');
-    const nome = input('Digite o novo nome do curso: ');
-    const curso = await CursoController.editar(cod, nome);
-    console.table(curso);
+  static async listarPorLivroOuUsuario() {
+    const id_livro = input('Digite o id do livro: ');
+    const id_usuario = input('Digite o id do usuário: ');
+    const emprestimo = await EmprestimoController.listarPorLivroOuUsuario(id_livro,id_usuario);
+    console.table(emprestimo);
   }
-  static async listarTodos() {
-    const cursos = await CursoController.listarTodos();
-    console.table(cursos);
+  static async filtrar(){
+    const status = input('Digite o status do empréstimo: ');
+    const filtrarEmprestimo = await EmprestimoController.filtrar(status);
+    console.table(filtrarEmprestimo)
   }
-  static async listarPorCodigo() {
-    const cod = input('Digite o código do curso: ');
-    const curso = await CursoController.listarPorCodigo(cod);
-    console.table(curso);
-  }
-  static async deletarCurso() {
-    const cod = input('Digite o código do curso: ');
-    await CursoController.deletarCurso(cod);
-  }
-  static async totalAlunosPorCurso() {
-    const cod = input('Digite o código do curso: ');
-    const total = await CursoController.totalAlunosPorCurso(cod);
+  static async totalEmprestimo() {
+    const total = await EmprestimoController.totalEmprestimo();
     console.table(total);
   }
-  static async listarAlunosPorCurso(){
-    const cod = input('Digite o código do curso: ');
-    const listaAluno = await CursoController.listarAlunosPorCurso(cod);
-    console.table(listaAluno);
+  static async listarTodos() {
+    const emprestimos = await EmprestimoController.listarTodos();
+    console.table(emprestimos);
   }
-  static async listarProfessoresPorCurso(){
-    const cod = input('Digite o código do curso: ');
-    const listaProfessor = await CursoController.listarProfessoresPorCurso(cod);
-    console.table(listaProfessor)
+  static async atualizarStatus() {
+    const id_livro = input('Digite o nome do livro: ');
+    const status = input('Digite o novo status do empréstimo: ');
+    const emprestimo = await EmprestimoController.atualizarStatus(id_livro, status);
+    console.table(emprestimo);
   }
-
+  static async deletarEmprestimo() {
+    const id_emprestimo = input('Digite o id do empréstimo: ');
+    await EmprestimoController.deletarEmprestimo(id_emprestimo);
+  }
 }
 
-export default CursoView;
+export default EmprestimoView;
