@@ -1,0 +1,169 @@
+--1. Liste o nome e o total de empréstimos de cada usuário.
+--Dica: COUNT, GROUP BY, JOIN
+select usuario.nome, count(emprestimo.usuario_id) as total_emprestimo from usuario
+join emprestimo on usuario.id = emprestimo.usuario_id
+group by usuario.nome
+
+select * from livro_autor
+
+--2. Qual o valor médio (AVG) dos livros cadastrados?
+--Dica: AVG, tabela livro
+select avg(livro.valor) from livro
+
+--3. Qual o livro mais caro e o mais barato? Mostre o título, autor e o valor.
+--Dica: MIN, MAX, tabela livro com autor
+select * from livro
+order by livro.valor asc
+limit 1
+
+select * from livro
+order by livro.valor desc
+limit 1
+
+--4. Quantos livros existem de cada categoria? Liste categoria e quantidade.
+--Dica: COUNT, GROUP BY
+
+select livro.categoria, count(estoque.quantidade) as total_categoria from livro
+join estoque on livro.id = estoque.livro_id
+group by livro.categoria
+
+--5. Qual a soma total (SUM) das multas pagas até agora?
+--Dica: SUM, tabela multa
+
+select sum(multa.valor) from multa
+
+--7. Liste os usuários que não devolveram seus livros ainda.
+--Dica: operador IS NULL, JOIN
+
+select usuario.nome from usuario
+join emprestimo on usuario.id = emprestimo.usuario_id
+where data_devolucao is null
+
+--8. Quantos empréstimos foram realizados por unidade? Mostre nome da unidade e total.
+--Dica: JOIN, GROUP BY
+
+--9. Liste os livros com mais de 400 páginas e valor acima de 50 reais.
+--Dica: operadores relacionais, tabela livro
+
+select * from livro
+where livro.paginas > 400 and livro.valor > 50
+
+--10. Mostre todos os livros da categoria “Ficcao” ou “Fantasia” ordenados por ano (decrescente).
+--Dica: operador lógico OR, ORDER BY
+
+select * from livro
+where livro.categoria = 'Ficcao' or livro.categoria = 'Fantasia'
+order by livro.ano desc
+
+--11. Liste todos os empréstimos feitos em 2024.
+--Dica: BETWEEN ou EXTRACT(YEAR ...), tabela emprestimo
+
+select * from emprestimo
+where emprestimo.data_emprestimo between '2024-01-01' and '2024-12-31'
+
+--12. Quantos usuários são do tipo “ALUNO” e quantos do tipo “INSTRUTOR”?
+--Dica: COUNT, GROUP BY, tabela usuario
+
+select count(usuario.nome) from usuario
+where usuario.tipo = 'ALUNO' 
+
+select count(usuario.nome) from usuario
+where usuario.tipo = 'INSTRUTOR'
+
+--13. Liste as 5 editoras com mais livros cadastrados.
+--Dica: GROUP BY, ORDER BY, LIMIT
+
+select editora, count(livro.id) as total from livro
+group by editora
+order by total desc
+limit 5
+
+--14. Qual a quantidade total de exemplares em estoque de cada livro? Liste título e soma da quantidade.
+--Dica: SUM, JOIN, GROUP BY
+
+select livro.titulo, sum(estoque.quantidade) as total_estoque from livro
+join estoque on livro.id = estoque.livro_id
+group by livro.titulo
+
+--15. Mostre todos os usuários que têm mais de 2 reservas feitas.
+--Dica: COUNT, GROUP BY, tabela reserva
+
+select usuario.nome,count(emprestimo.usuario_id) as total_usuario from usuario
+join emprestimo on usuario.id = emprestimo.usuario_id
+group by usuario.nome
+order by total_usuario desc
+limit 4
+
+--16. Liste todos os autores e, ao lado, quantos livros eles escreveram.
+--Dica: JOIN, GROUP BY, COUNT
+
+select * from emprestimo
+select autor.nome, count(livro.titulo) from autor
+join livro_autor on autor.id = livro_autor.autor_id
+join livro_autor on 
+order by autor.nome
+
+--17. Mostre os 3 livros mais emprestados, mostrando título e total de empréstimos.
+--Dica: JOIN, GROUP BY, ORDER BY, LIMIT
+
+select livro.titulo, count(emprestimo.livro_id) as total from livro
+join emprestimo on livro.id = emprestimo.livro_id
+group by livro.titulo
+order by total desc
+limit 3
+
+--18. Qual a média de dias de atraso das multas?
+--Dica: AVG, tabela multa
+
+select avg(dias_atraso) from multa
+
+--19. Liste todas as reservas feitas entre duas datas específicas.
+--Dica: BETWEEN em data_reserva
+
+select * from reserva
+where reserva.data_reserva between '2024-02-01' and '2024-07-31'
+
+--20. Liste os usuários que nunca pegaram nenhum livro emprestado.
+--Dica: LEFT JOIN, IS NULL
+
+--21. Liste os livros com valor maior que 45 reais e menos de 350 páginas.
+--Dica: >, <, AND, tabela livro
+
+select * from livro
+where livro.valor > 45 and livro.paginas < 350
+
+--22. Mostre os usuários do tipo “LEITOR” que pertencem a uma unidade com id maior ou igual a 5.
+--Dica: =, >=, AND, tabela usuario
+
+select * from usuario
+where usuario.tipo = 'LEITOR' and usuario.unidade_id >= 5
+
+--23. Liste todos os empréstimos feitos por usuários cujo id seja menor que 10 ou maior que 50.
+--Dica: <, >, OR, tabela emprestimo
+
+select * from emprestimo
+where emprestimo.id between 10 and 50
+
+--24. Mostre os livros que custam menos de 30 reais ou têm mais de 700 páginas.
+--Dica: <, >, OR, tabela livro
+
+select * from livro
+where livro.valor < 30 or livro.paginas > 700
+
+--25. Liste todos os autores cujo id está entre 15 e 30 e a nacionalidade seja diferente de “Estados Unidos”.
+--Dica: >=, <=, AND, <>, tabela autor
+
+select * from autor
+where autor.id between 15 and 30 and autor.nacionalidade != 'Estamos Unidos' 
+
+--27. Liste os usuários que não são do tipo “BIBLIOTECARIO” e nem do tipo “INSTRUTOR”.
+--Dica: <>, AND, tabela usuario
+
+select * from usuario
+where usuario.tipo != 'BIBLIOTECARIO' and usuario.tipo != 'INSTRUTOR'
+
+--28. Mostre todos os livros publicados antes de 1950 ou que sejam da categoria “Clássico”.
+--Dica: <, OR, tabela livro
+
+select * from livro
+where livro.ano < 1950 or livro.categoria = 'Clássico'
