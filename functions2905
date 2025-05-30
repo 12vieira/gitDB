@@ -1,0 +1,68 @@
+-- Database: db_backup
+-- view encapsula o código
+-- create view listar_titulo as
+-- select titulo from livro
+-- where titulo ilike 'A%'
+
+
+--	CRUD USUARIO
+-- listar
+select * from usuario
+-- listar por email
+select * from usuario
+where usuario.email = 'carlos.oliveira@senac.br'
+-- criar usuario
+insert into usuario(id, nome, email, tipo, unidade_id)
+values ('$1','$2','$3','$4','$5')
+-- editar usuario
+update from usuario
+set nome = 'novo nome', email = 'novoemail@senac.br', tipo = 'novo tipo', unidade_id = 'nova unidade'
+where email = 'email.antigo@senac.br'
+-- deletar usuario
+delete from usuario
+where email = 'carlos.oliveira@senac.br'
+-- deletar todos
+delete from usuario
+
+-- FUNCTIONS
+
+CREATE OR REPLACE FUNCTION increment(i integer) RETURNS integer AS $$
+        BEGIN
+                RETURN i + 1;
+        END;
+$$ LANGUAGE plpgsql;
+
+SELECT * from increment(5)
+
+
+create or replace function buscar_user_id(i integer) returns varchar as $$
+DECLARE
+    nome_usuario VARCHAR;
+	begin
+		select usuario.nome into nome_usuario from usuario
+		where usuario.id = i;
+		RETURN nome_usuario;
+	end;
+$$ LANGUAGE plpgsql;
+
+select buscar_user_id(10)
+
+create or replace function buscar_user(i INTEGER) 
+returns table (id INTEGER, nome VARCHAR, email VARCHAR, tipo VARCHAR) as 
+$$
+	begin
+		return query
+		select usuario.id, usuario.nome, usuario.email, usuario.tipo 
+		from usuario
+		where usuario.id = i;
+	end;
+$$ LANGUAGE plpgsql;
+
+select * FROM buscar_user(1)
+
+
+
+
+
+
+
