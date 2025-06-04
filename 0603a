@@ -1,0 +1,124 @@
+----------------------------------- CRUD ----------------------------------------
+create or replace function buscar_user(i INTEGER) 
+returns table (id INTEGER, nome VARCHAR, email VARCHAR, tipo VARCHAR) as 
+$$
+	begin
+		return query
+		select usuario.id, usuario.nome, usuario.email, usuario.tipo 
+		from usuario
+		where usuario.id = i;
+	end;
+$$ 
+LANGUAGE plpgsql;
+
+select * FROM buscar_user(1)
+----------------------------------------------------------
+CREATE OR REPLACE FUNCTION info_autor (id_autor integer)
+RETURNS table(nome varchar, nacionalidade varchar) AS
+$$
+	BEGIN
+		RETURN query
+		select autor.nome, autor.nacionalidade from autor
+		where id_autor = autor.id;
+	END;
+$$
+LANGUAGE plpgsql;
+
+select * from info_autor(8)
+----------------------------------------------------------
+CREATE OR REPLACE FUNCTION add_autor (id_autor integer, nome_autor varchar, nacionalidade_autor varchar)
+RETURNS varchar AS
+$$
+	BEGIN
+		INSERT INTO autor (id, nome, nacionalidade) VALUES (id_autor, nome_autor, nacionalidade_autor);
+		RETURN 'Inserido com sucesso!';
+	END;
+$$
+LANGUAGE plpgsql
+select * from usuario
+select * from add_autor(71,'Carlos Felinto', 'Uruguai')
+----------------------------------------------------------
+CREATE OR REPLACE FUNCTION add_user (id_user integer, nome_user varchar, email_user varchar, tipo_user varchar, unidade_user integer)
+RETURNS varchar AS
+$$
+	BEGIN
+		INSERT INTO usuario (id, nome, email, tipo, unidade_id) VALUES (id_user, nome_user, email_user, tipo_user, unidade_user);
+		RETURN 'Aluno adicionado!';
+	END;
+$$
+LANGUAGE plpgsql
+
+select * from add_user(62, 'Carlos Felinto', 'felino.carlos@senac.br', 'ALUNO', 2)
+
+select * from usuario
+------------------------------------------------------------
+CREATE OR REPLACE FUNCTION info_user (nome_user varchar)
+RETURNS table (id integer, nome varchar, email varchar, tipo varchar, unidade_id integer) AS 
+$$
+	BEGIN
+		RETURN query
+		select * from usuario
+		where nome_user = usuario.nome;
+	END;
+$$
+LANGUAGE plpgsql;
+
+select * from info_user('Matheus Vieira')
+------------------------------------------------------------
+CREATE OR REPLACE FUNCTION up_user (id_user integer, tipo_user varchar)
+RETURNS varchar AS
+$$
+	BEGIN
+		update usuario
+		set tipo = tipo_user
+		where id = id_user;
+		RETURN 'Aluno atualizado!';
+	END;
+$$
+LANGUAGE plpgsql;
+
+select * from up_user(61, 'INSTRUTOR')
+select * from info_user('Matheus Vieira')
+--------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION delete_user (id_user integer)
+RETURNS varchar AS
+$$
+	BEGIN
+		delete from usuario
+		where id_user = id;
+		RETURN 'Aluno deletado';
+	END;
+$$
+LANGUAGE plpgsql;
+
+select * from delete_user(62);
+select * from usuario
+---------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION lend_livro (id_user integer)
+RETURNS table (titulo varchar, data_emprestimo date) AS 
+$$
+	BEGIN
+		RETURN query
+		select livro.titulo, emprestimo.data_emprestimo from emprestimo
+		join livro on livro.id = emprestimo.livro_id
+		where emprestimo.usuario_id = id_user;
+	END;
+$$
+LANGUAGE plpgsql;
+
+select * from lend_livro(1)
+
+select * from emprestimo
+-----------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION count_livro()
+RETURNS integer AS
+$$
+	DECLARE total integer;
+	BEGIN
+		select count(*) into total from livro;
+		RETURN total;
+	END;
+$$
+LANGUAGE plpgsql;
+
+select * from count_livro()
