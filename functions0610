@@ -1,0 +1,165 @@
+---------------------- ATIVIDADE FUNCTIONS -----------------------------
+------------------------- QUESTÃO 01 -----------------------------------
+CREATE OR REPLACE FUNCTION quantidade_emprestimo (id_usuario integer)  
+RETURNS integer AS  
+$$  
+	DECLARE total integer;  
+	BEGIN  
+		select count(*) into total from emprestimo  
+		where id_usuario = emprestimo.usuario_id;  
+		RETURN total;  
+	END;  
+$$  
+LANGUAGE plpgsql; 
+
+------------------------- QUESTÃO 02 -----------------------------------
+CREATE OR REPLACE FUNCTION reserva_usuario (id_usuario integer)
+RETURNS table (titulo varchar, data_reserva date) AS
+$$
+	BEGIN
+		RETURN query
+		select livro.titulo, reserva.data_reserva from reserva
+		join livro on livro.id = reserva.livro_id
+		where id_usuario = reserva.usuario_id
+		group by livro.titulo, reserva.data_reserva;
+	END;
+$$
+LANGUAGE plpgsql;
+------------------------- QUESTÃO 03 -----------------------------------
+CREATE OR REPLACE FUNCTION livro_unidade(unidade integer)
+RETURNS integer AS
+$$
+	DECLARE total integer;
+	BEGIN
+		select sum(estoque.quantidade) into total from estoque
+		where unidade = estoque.unidade_id;
+		return total;
+	END;
+$$
+LANGUAGE plpgsql;
+------------------------- QUESTÃO 04 -----------------------------------
+-->INSERIR LIVRO
+
+CREATE OR REPLACE FUNCTION inserir_livro(book_id integer, book_titulo varchar, book_valor numeric, book_ano integer, book_paginas integer, book_categoria varchar, book_editora varchar, book_isbn varchar)
+RETURNS varchar as
+$$
+BEGIN
+	INSERT INTO livro (id, titulo, valor, ano, paginas, categoria, editora, isbn)
+	values(book_id, book_titulo, book_valor, book_ano, book_paginas, book_categoria, book_editora, book_isbn);
+	RETURN 'Livro Inserido com Sucesso!';
+END;
+$$
+LANGUAGE plpgsql;
+
+select * from inserir_livro(72, 'Turma do Chico Bento', 39.90, 2005, 200, 'Clássico', 'Panini', '1111111111111')
+select * from livro
+-->ATUALIZAR LIVRO
+CREATE OR REPLACE FUNCTION atualizar_livro(book_id integer, book_titulo varchar, book_valor numeric, book_ano integer, book_paginas integer, book_categoria varchar, book_editora varchar, book_isbn varchar)
+RETURNS varchar as
+$$
+BEGIN
+	UPDATE livro set titulo = book_titulo, valor = book_valor, ano = book_ano, paginas = book_paginas, categoria = book_categoria, editora = book_editora, isbn = book_isbn
+	WHERE book_id = livro.id;
+	RETURN 'Livro Atualizado!';
+END;
+$$
+LANGUAGE plpgsql;
+
+select * from atualizar_livro(71, 'Turma do Mônica', 39.90, 2005, 200, 'Clássico', 'Panini', '1111852319111')
+
+-->DELETAR LIVRO
+
+CREATE OR REPLACE FUNCTION deletar_livro(book_id integer)
+RETURNS varchar as
+$$
+BEGIN
+	DELETE from livro
+	WHERE book_id = livro.id;
+	RETURN 'Livro Deletado!!';
+END;
+$$
+LANGUAGE plpgsql;
+
+select * from deletar_livro(72)
+
+------------------------- QUESTÃO 05 -----------------------------------
+
+CREATE OR REPLACE FUNCTION contar_categoria(book_categoria varchar)
+RETURNS integer as
+$$
+DECLARE total integer;
+BEGIN
+	SELECT COUNT(livro.categoria) INTO total from livro
+	WHERE book_categoria = livro.categoria;
+	RETURN total;
+END;
+$$
+LANGUAGE plpgsql;
+
+select contar_categoria('Romance')
+
+------------------------- QUESTÃO 07 - ERRADA -----------------------------------
+
+CREATE OR REPLACE FUNCTION ver_devolucao(data_book date)
+RETURNS TABLE(titulo varchar,livro_id integer,data_devolucao date) as
+$$
+BEGIN
+	RETURN QUERY
+	SELECT livro.titulo,emprestimo.livro_id,emprestimo.data_devolucao from emprestimo
+	join livro on livro.id = emprestimo.livro_id
+	WHERE emprestimo.data_devolucao = data_book;
+END;
+$$
+LANGUAGE plpgsql;
+
+SELECT * FROM ver_devolucao('2024-07-12')
+-------------------------- QUESTÃO 7 -----------------------------------------------
+CREATE OR REPLACE FUNCTION reserva(b_data_devolucao integer)
+RETURNS integer as
+$$
+DECLARE total date;
+DECLARE contador integer := 0;
+BEGIN
+	FOR total IN SELECT data_reserva FROM reserva LOOP
+	IF extract (MONTH from total) = b_data_devolucao then
+	contador := contador + 1;
+	END IF;
+	END LOOP;
+	RETURN contador;
+END;
+$$
+LANGUAGE plpgsql;
+------------------------ QUESTÃO 8 -------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION classificar_usuario(b_id integer)
+RETURNS VARCHAR as
+$$
+DECLARE lend integer;
+DECLARE status varchar;
+BEGIN
+	SELECT COUNT(*) INTO lend FROM emprestimo
+	WHERE emprestimo.usuario_id = b_id;
+	IF lend = 0 then
+	status := 'NOVATO';
+	ELSIF lend >= 1 AND lend <= 3 then
+	status := 'LEITOR OCASIONAL';
+	ELSE
+	status := 'LEITOR FREQUENTE';
+	END IF;
+	RETURN status;
+END
+$$
+LANGUAGE plpgsql;
+--------------------------- QUESTÃO EXTRA --------------------------------------------
+CREATE OR REPLACE FUNCTION inserir_emprestimo(b_id integer, b_usuario_id integer, b_livro_id integer, b_data_emprestimo date, b_data_devolucao date, b_data_limite date)
+RETURNS varchar as
+$$
+BEGIN
+	INSERT INTO emprestimo
+	values(b_id, b_usuario_id, b_livro_id,b_data_emprestimo, b_data_devolucao, b_data_limite);
+	RETURN 'Emprestimo Inserido com Sucesso!';
+END;
+$$
+LANGUAGE plpgsql;
+
+select * from emprestimo
